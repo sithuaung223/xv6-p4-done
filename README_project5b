@@ -1,0 +1,21 @@
+stat.h
+fcntl.h
+sysfile.c
+fs.c
+
+
+In stat.h, 
+  we add T_CHECKED and unchar checksum variable to be avaiable to use in other file
+
+In fcntl.h,
+  we defined O_CHECKED flag as 0x400
+
+In sysfile.c,
+  add type checking for T_CHECKED in create() and sys_open() function.
+
+In fs.c,
+  - bmap() function, we masked the address with 0x00ffffff in both direct and indirect node if type is T_CHECKED.
+  - stati() function, we compute and dump the info of checksum value if it is T_CHECKED type 
+  - readi() function, we compute  the checksum again and check with the stored value. if it match, return 0 and if not, return -1
+  - writei() function, we create the block for checksum and write it on the filesystem.
+  
